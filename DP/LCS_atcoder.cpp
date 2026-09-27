@@ -2,7 +2,7 @@
 using namespace std;
 vector<vector<int>> dp;
 
-int solve(int i, int j, vector<int> &v1, vector<int> &v2){
+int solve(int i, int j, string &v1, string &v2){
     int n=v1.size();
     int m=v2.size();
     if(i==n || j==m) return dp[i][j]=0;
@@ -22,20 +22,19 @@ int main(){
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    int n,m;
-    cin>>n>>m;
-    vector<int> v1(n);
-    vector<int> v2(m);
-    for(int i=0;i<n;i++) cin>>v1[i];
-    for(int i=0;i<m;i++) cin>>v2[i];
+    string v1,v2;
+    cin>>v1>>v2;
+
+    int n=v1.size();
+    int m=v2.size();
 
     dp.assign(n+1,vector<int>(m+1,-1));
     int res=solve(0,0,v1,v2);
     int i=0,j=0;
-    vector<int> lcs;
+    string lcs;
     while(i<n && j<m){
         if(v1[i]==v2[j] && dp[i][j]==1+dp[i+1][j+1]){
-            lcs.push_back(v1[i]);
+            lcs+=v1[i];
             i++,j++;
         }
         else if(dp[i][j]==dp[i+1][j]){
@@ -45,9 +44,5 @@ int main(){
             j++;
         }
     }
-    cout<<res<<endl;
-    for(int i=0;i<lcs.size();i++){
-        cout<<lcs[i]<<" ";
-    }
-    cout<<endl;
+    cout<<lcs<<endl;
 }
